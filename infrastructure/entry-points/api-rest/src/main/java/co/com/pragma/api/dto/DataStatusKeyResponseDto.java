@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class DataStatusKeyResponseDto {
     @NotNull
-    private KeyInformationDto keyInformationDto;
+    private KeyInformationDto keyInformation;
 
 }

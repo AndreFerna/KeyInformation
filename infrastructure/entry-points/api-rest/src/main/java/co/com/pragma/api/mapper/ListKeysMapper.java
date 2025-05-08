@@ -28,7 +28,7 @@ public class ListKeysMapper {
 
     public DataStatusKeyResponseDto toDataStatusKeyResponseDto(KeyInformationDto keyInformationDto){
         return DataStatusKeyResponseDto.builder()
-                .keyInformationDto(keyInformationDto)
+                .keyInformation(keyInformationDto)
                 .build();
     }
 

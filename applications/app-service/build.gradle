@@ -1,6 +1,9 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+	testImplementation 'com.tngtech.archunit:archunit:1.1.1'
+	implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+	implementation project( ':mongo-repository')
 	implementation project(':rest-consumer')
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	testImplementation 'org.springframework:spring-web'

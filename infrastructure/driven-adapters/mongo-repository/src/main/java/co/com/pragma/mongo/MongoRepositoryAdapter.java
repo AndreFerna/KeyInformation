@@ -7,29 +7,33 @@ import co.com.pragma.mongo.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class MongoRepositoryAdapter extends AdapterOperations<KeyInformation, KeyEntity, String, MongoDBRepository> implements KeyGateway
-// implements ModelRepository from domain
 {
 
     public MongoRepositoryAdapter(MongoDBRepository repository, ObjectMapper mapper) {
-        /**
-         *  Could be use mapper.mapBuilder if your domain model implement builder pattern
-         *  super(repository, mapper, d -> mapper.mapBuilder(d,ObjectModel.ObjectModelBuilder.class).build());
-         *  Or using mapper.map with the class of the object model
-         */
         super(repository, mapper, d -> mapper.map(d, KeyInformation.class));
-    }
-
-    @Override
-    public ArrayList<KeyInformation> listKeys() {
-        return (ArrayList<KeyInformation>) findAll();
     }
 
     @Override
     public KeyInformation statusKey(String id) {
         return findById(id);
+    }
+
+    @Override
+    public List<KeyInformation> findByCustomerIdAndCardId(String customerId, String cardId) {
+        List<KeyEntity> entities = repository.findByCustomerIdAndCardId(customerId, cardId);
+
+        return entities.stream().map(item -> new KeyInformation(
+                item.getType(),
+                item.getValue(),
+                item.getStatus(),
+                item.getCreationDate(),
+                item.getCardId(),
+                item.getCustomerId()
+        )).collect(Collectors.toList());
     }
 }

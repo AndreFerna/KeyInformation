@@ -1,11 +1,12 @@
 package co.com.pragma.api.mapper;
 
-import co.com.pragma.api.dto.DataStatusKeyResponseDto;
-import co.com.pragma.api.dto.KeyDto;
-import co.com.pragma.api.dto.KeyInformationDto;
-import co.com.pragma.model.key.Key;
-import co.com.pragma.model.key.KeyInformation;
+import co.com.pragma.api.dto.*;
+import co.com.pragma.model.key.*;
 import lombok.experimental.UtilityClass;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class ListKeysMapper {
@@ -17,18 +18,39 @@ public class ListKeysMapper {
                 .build();
     }
 
-    public KeyInformationDto KeyInformationToKeyInformationDto(KeyInformation keyInformation){
-        return KeyInformationDto.builder()
-                .type(keyInformation.getType())
-                .value(keyInformation.getValue())
-                .status(keyInformation.getStatus())
-                .creationDate(keyInformation.getCreationDate())
+    public Identification identificationDtoToIdentification(IdentificationDto identificationDto){
+        return Identification.builder()
+                .type(identificationDto.getType())
+                .number(identificationDto.getNumber())
                 .build();
     }
 
-    public DataStatusKeyResponseDto toDataStatusKeyResponseDto(KeyInformationDto keyInformationDto){
-        return DataStatusKeyResponseDto.builder()
-                .keyInformation(keyInformationDto)
+    public Card cardDtoToCard(CardDto cardDto){
+        return Card.builder()
+                .type(cardDto.getType())
+                .number(cardDto.getNumber())
+                .build();
+    }
+
+    public CustomerInformation customerInformationDtoToCustomerInformation(CustomerInformationDto customerInformationDto){
+        return CustomerInformation.builder()
+                .identification(identificationDtoToIdentification(customerInformationDto.getIdentification()))
+                .card(cardDtoToCard(customerInformationDto.getCard()))
+                .build();
+    }
+
+    public List<KeyInformationDto> toList(List<KeyInformation> list){
+        return new ArrayList<> (list.stream().map(item -> new KeyInformationDto(
+                item.getType(),
+                item.getValue(),
+                item.getStatus(),
+                item.getCreationDate()
+        )).collect(Collectors.toList()));
+    }
+
+    public DataListKeysResponseDto toDataListKeysResponseDto(List<KeyInformationDto> list){
+        return DataListKeysResponseDto.builder()
+                .keyList(list)
                 .build();
     }
 

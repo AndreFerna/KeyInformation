@@ -1,5 +1,8 @@
 package co.com.pragma.model.key.config;
 
+import lombok.Getter;
+
+@Getter
 public class PragmaException extends RuntimeException {
   private final ErrorCode error;
 

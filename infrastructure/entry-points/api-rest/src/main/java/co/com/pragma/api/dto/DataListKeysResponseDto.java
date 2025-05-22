@@ -1,4 +1,13 @@
 package co.com.pragma.api.dto;
 
-public @interface DataListKeysResponseDto {
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DataListKeysResponseDto {
+    List<KeyInformationDto> keyList;
 }

@@ -32,7 +32,7 @@ subprojects {
     test.finalizedBy(project.tasks.jacocoTestReport)
 
     jacocoTestReport {
-        dependsOn test, 'pitest'
+        dependsOn test
         reports {
             xml.setRequired true
             xml.setOutputLocation layout.buildDirectory.file("reports/jacoco.xml")

@@ -7,6 +7,7 @@ public enum ErrorCode {
     SA400(400, "Bad Request", "SA400", "Petición mal formada"),
     SA401(401, "Unauthorized", "SA401", "Id o secreto de cliente no válido"),
     BP409(409, "Conflict", "BP409", "No se encontro información de la llave"),
+    BP409_1(409, "Conflict", "BP409", "No se tiene llaves"),
     SP500(500, "Internal Server Error", "SP500", "Ha ocurrido un error en el servicio"),
     SP502(502, "Bad Gateway", "SP502", "El mensaje del servidor es inválido"),
     SP503(503, "Service Unavailable", "SP503", "Servicio no disponible"),

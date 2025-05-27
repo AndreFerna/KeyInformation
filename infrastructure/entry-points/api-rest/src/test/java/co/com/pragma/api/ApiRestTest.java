@@ -5,6 +5,7 @@ import co.com.pragma.model.key.Identification;
 import co.com.pragma.model.key.KeyInformation;
 import co.com.pragma.usecase.key.KeyUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static co.com.pragma.model.key.config.ErrorCode.SP503;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,13 +53,24 @@ class ApiRestTest {
         //assertEquals("", response);
         //WebTestClient
     }
-    
+
     @Test
     void healthShouldReturnOkWhenStatusIsUp() throws Exception {
         when(healthEndpoint.health()).thenReturn(Health.up().build());
 
         mockMvc.perform(head("/v1/key-management/key-information-api/health"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testHealthDown() throws Exception {
+        when(healthEndpoint.health()).thenReturn(Health.down().build());
+
+        ServletException exception = assertThrows(ServletException.class, () -> {
+            mockMvc.perform(head("/v1/key-management/key-information-api/health"));
+        });
+
+        assertTrue(exception.getMessage().contains(SP503.getDetail()));
     }
 
     @Test
